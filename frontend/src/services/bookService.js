@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const rawApiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').trim();
+const normalizedBaseUrl = rawApiUrl.replace(/\/+$/, '').endsWith('/api')
+  ? rawApiUrl.replace(/\/+$/, '')
+  : `${rawApiUrl.replace(/\/+$/, '')}/api`;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
+  baseURL: normalizedBaseUrl,
 });
 
 export const bookService = {
@@ -29,4 +34,3 @@ export const bookService = {
     await api.delete(`/books/${id}`);
   },
 };
-
